@@ -1,18 +1,22 @@
-package github.com/willdonnelly/passwd
+package passwd
 
 import "os"
 import "bufio"
+import "errors"
 import "strings"
 
+// An Entry contains all the fields for a specific user
 type Entry struct {
-	Pass string
-	Uid string
-	Gid string
+	Pass  string
+	Uid   string
+	Gid   string
 	Gecos string
-	Home string
+	Home  string
 	Shell string
 }
 
+// Parse opens the '/etc/passwd' file and parses it into a map from usernames
+// to Entries
 func Parse() (map[string]Entry, error) {
 	file, err := os.Open("/etc/passwd")
 	if err != nil {
@@ -34,7 +38,7 @@ func Parse() (map[string]Entry, error) {
 	return entries, nil
 }
 
-func parseLine (line string) (string, Entry, error) {
+func parseLine(line string) (string, Entry, error) {
 	fs := strings.Split(line, ":")
 	if len(fs) != 7 {
 		return "", Entry{}, errors.New("Unexpected number of fields in /etc/passwd")
