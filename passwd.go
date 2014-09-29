@@ -1,4 +1,4 @@
-// Package
+// Package passwd parsed content and files in form of /etc/passwd
 package passwd
 
 import (
